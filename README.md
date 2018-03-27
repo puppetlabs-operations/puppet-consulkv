@@ -21,7 +21,7 @@ The functions authenticate themselves with the compiler's Puppet cert.
 
 ## Reference
 
-### `consulkv::get`
+### `consulkv::get($host, $key)`
 
 ~~~ puppet
 consulkv::get('consul-app.example.com', 'key/path1') == 'rawdata'
@@ -30,7 +30,7 @@ consulkv::get('consul-app.example.com', 'key/path1') == 'rawdata'
 This returns the raw value of a given key as a string. If the key doesn't exist,
 it returns `undef`.
 
-### `consulkv::get_json`
+### `consulkv::get_json($host, $key)`
 
 ~~~ puppet
 consulkv::get_json('consul-app.example.com', 'key/path2') == { 'my' => 'data' }
@@ -39,7 +39,7 @@ consulkv::get_json('consul-app.example.com', 'key/path2') == { 'my' => 'data' }
 This parses value of a given key as JSON. If the key doesn't exist,
 it returns `undef`. If it can't parse the returned value, it will fail.
 
-### `consulkv::set`
+### `consulkv::set($host, $key, $string)`
 
 ~~~ puppet
 consulkv::set('consul-app.example.com', 'key/path1', 'rawdata')
@@ -53,7 +53,7 @@ consulkv::set('consul-app.example.com', 'key/path1', undef)
 
 If `undef` is passed instead of a string, the key is deleted.
 
-### `consulkv::set_json`
+### `consulkv::set_json($host, $key, $anything)`
 
 ~~~ puppet
 consulkv::set_json('consul-app.example.com', 'key/path2', { 'my' => 'data' })
