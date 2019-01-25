@@ -4,11 +4,12 @@ Puppet::Functions.create_function(:'consulkv::get_service_nodes') do
   dispatch :get_service_nodes do
     required_param 'String[1]', :host
     required_param 'String[1]', :service
+    optional_param 'Boolean', :use_ssl
     return_type 'Any'
   end
 
-  def get_service_nodes(host, service)
-    ConsulKV.api(host) do |http|
+  def get_service_nodes(host, service, use_ssl = true)
+    ConsulKV.api(host, use_ssl) do |http|
       response = http.get("/v1/catalog/service/#{service}")
 
       if response.code == "200"

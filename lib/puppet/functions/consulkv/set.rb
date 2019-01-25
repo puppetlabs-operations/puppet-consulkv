@@ -2,13 +2,14 @@ require File.expand_path('../../../../consulkv', __FILE__)
 
 Puppet::Functions.create_function(:'consulkv::set') do
   dispatch :set do
-    param 'String[1]', :host
-    param 'String[1]', :key
-    param 'Optional[String]', :value
+    required_param 'String[1]', :host
+    required_param 'String[1]', :key
+    required_param 'Optional[String]', :value
+    optional_param 'Boolean', :use_ssl
   end
 
-  def set(host, key, value)
-    ConsulKV.api(host) do |http|
+  def set(host, key, value, use_ssl = true)
+    ConsulKV.api(host, use_ssl) do |http|
       if value.nil?
         action = "Deleting"
         request = Net::HTTP::Delete.new("/v1/kv/#{key}")

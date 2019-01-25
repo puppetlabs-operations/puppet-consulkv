@@ -2,13 +2,14 @@ require File.expand_path('../../../../consulkv', __FILE__)
 
 Puppet::Functions.create_function(:'consulkv::get') do
   dispatch :get do
-    param 'String[1]', :host
-    param 'String[1]', :key
+    required_param 'String[1]', :host
+    required_param 'String[1]', :key
+    optional_param 'Boolean', :use_ssl
     return_type 'Optional[String]'
   end
 
-  def get(host, key)
-    ConsulKV.api(host) do |http|
+  def get(host, key, use_ssl = true)
+    ConsulKV.api(host, use_ssl) do |http|
       response = http.get("/v1/kv/#{key}?raw=true")
 
       if response.code == "200"
